@@ -17,18 +17,25 @@ test.describe("RegressionSuite", () => {
   });
 
   test("Login-logout", async ({ page }) => {
-    await landingPage.verifyCorrectPage();
-    await landingPage.LoginButton.click();
 
-    await loginPage.verifyCorrectPage();
-    await loginPage.userNameInput.type(userdata.userName);
-    await loginPage.passwordInput.type(userdata.password);
-    await loginPage.submitButton.click();
-    
-    await profilPage.verifyCorrectPage();
-    await profilPage.logOutButton.click();
-    await expect(landingPage.LoginButton).toBeVisible();
-    
+await test.step('Go to Landing Page',async ()=>{
+  await landingPage.verifyCorrectPage();
+});
+await test.step('Go to Login Page',async ()=>{
+  await landingPage.LoginButton.click();
+  await loginPage.verifyCorrectPage();
+});
+
+await test.step('Login to System',async ()=>{
+  await loginPage.userNameInput.type(userdata.userName);
+  await loginPage.passwordInput.type(userdata.password);
+  await loginPage.submitButton.click();
+  await profilPage.verifyCorrectPage();
+});
+await test.step('Log Out to System',async ()=>{
+  await profilPage.logOutButton.click();
+  await expect(landingPage.LoginButton).toBeVisible();
+});   
   });
 
   test("Search book", async ({ page }) => {
