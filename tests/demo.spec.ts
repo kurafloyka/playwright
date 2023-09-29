@@ -12,41 +12,23 @@ test.describe("RegressionSuite", () => {
     landingPage = new LandingPage(page);
     profilPage = new ProfilPage(page);
     loginPage = new LoginPage(page);
-
     await landingPage.navigate();
-    await landingPage.LoginButton.waitFor({
-      state: "attached",
-      timeout: 10000,
-    });
+    
   });
 
   test("Login-logout", async ({ page }) => {
     await landingPage.verifyCorrectPage();
     await landingPage.LoginButton.click();
 
-
-
-    await loginPage.userNameInput.waitFor({
-      state: "attached",
-      timeout: 10000,
-    });
     await loginPage.verifyCorrectPage();
     await loginPage.userNameInput.type(userdata.userName);
     await loginPage.passwordInput.type(userdata.password);
     await loginPage.submitButton.click();
-    await page.waitForTimeout(1000);
-
-
-    await expect(page.locator("#userName-label")).toBeVisible();
-    await page.locator("//input[@type='number']").scrollIntoViewIfNeeded();
-    await page.locator("//input[@type='number']").clear();
-    //await page.locator("//input[@type='number']").type('2');
-
-    await page.keyboard.press("Enter");
-    await page.waitForTimeout(3000);
-    await page.locator("#submit").click();
-    await expect(page.url()).toContain("https://demoqa.com/login");
-    await page.waitForTimeout(3000);
+    
+    await profilPage.verifyCorrectPage();
+    await profilPage.logOutButton.click();
+    await expect(landingPage.LoginButton).toBeVisible();
+    
   });
 
   test("Search book", async ({ page }) => {
